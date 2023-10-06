@@ -15,6 +15,7 @@
     <PackageReference Include="MySqlConnector" Version="2.2.7" />
     <PackageReference Include="microsoft.extensions.configuration.binder" Version="7.0.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
   </ItemGroup>
 
 </Project>

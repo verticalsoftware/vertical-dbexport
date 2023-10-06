@@ -1,3 +1,5 @@
+using System.Reflection;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Vertical.SpectreLogger;
@@ -13,6 +15,7 @@ public static class Runtime
 
         services.AddSingleton(options);
         services.AddApplicationServices();
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddLogging(builder =>
         {
             builder.AddSpectreConsole(cfg =>
