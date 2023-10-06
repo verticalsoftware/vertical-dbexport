@@ -2,5 +2,7 @@ namespace Vertical.DbExport;
 
 public class JobOptions
 {
-    public Dictionary<string, TaskOptions> Tasks { get; set; } = new();
+    public string JobId { get; set; } = default!;
+    public TaskOptions[] Tasks { get; set; } = Array.Empty<TaskOptions>();
+    public Dictionary<string, string>? Parameters { get; set; }
 }

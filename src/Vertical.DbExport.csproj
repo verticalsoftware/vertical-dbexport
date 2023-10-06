@@ -10,6 +10,8 @@
   
   <ItemGroup>
     <PackageReference Include="vertical-spectreconsolelogger" Version="0.10.1-dev.20230901.27" />
+    <PackageReference Include="vertical-commandline" Version="2.4.0" />
+    <PackageReference Include="vertical-pipelines-dependencyinjection" Version="1.1.3" />
     <PackageReference Include="MySqlConnector" Version="2.2.7" />
     <PackageReference Include="microsoft.extensions.configuration.binder" Version="7.0.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
