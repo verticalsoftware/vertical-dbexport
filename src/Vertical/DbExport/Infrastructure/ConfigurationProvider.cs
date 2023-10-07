@@ -1,7 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Vertical.DbExport.Options;
 
-namespace Vertical.DbExport;
+namespace Vertical.DbExport.Infrastructure;
 
 public interface IConfigurationProvider
 {
@@ -11,13 +12,13 @@ public interface IConfigurationProvider
 [Inject]
 public class ConfigurationProvider : IConfigurationProvider
 {
-    private readonly CommandLineOptions _options;
+    private readonly CommandLineOptions _commandLineOptions;
     private readonly ILogger<ConfigurationProvider> _logger;
     private readonly Lazy<IConfiguration> _lazyConfiguration;
     
-    public ConfigurationProvider(CommandLineOptions options, ILogger<ConfigurationProvider> logger)
+    public ConfigurationProvider(CommandLineOptions commandLineOptions, ILogger<ConfigurationProvider> logger)
     {
-        _options = options;
+        _commandLineOptions = commandLineOptions;
         _logger = logger;
         _lazyConfiguration = new Lazy<IConfiguration>(Build);
     }
@@ -27,12 +28,19 @@ public class ConfigurationProvider : IConfigurationProvider
     private IConfiguration Build()
     {
         var builder = new ConfigurationBuilder();
-        var parameters = ParameterDictionary.Create(_options.Parameters);
-        foreach (var source in _options.ConfigFiles.Select(path => TokenResolver.Resolve(path, parameters)))
+
+        if (_commandLineOptions.ConfigFiles.Count == 0)
+        {
+            _logger.LogWarning("No configuration file(s) merged to root options.");
+        }
+        
+        foreach (var source in _commandLineOptions.ConfigFiles.Select(Path.GetFullPath))
         {
             _logger.LogDebug("Adding configuration {path}", source);
             builder.AddJsonFile(source);
         }
+
+        builder.AddUserSecrets(GetType().Assembly);
 
         return builder.Build();
     }

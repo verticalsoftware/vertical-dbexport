@@ -1,13 +1,13 @@
 using FluentValidation;
+using Vertical.DbExport.Options;
 
-namespace Vertical.DbExport;
+namespace Vertical.DbExport.Validators;
 
 public class TaskOptionsValidator : AbstractValidator<TaskOptions>
 {
     public TaskOptionsValidator(
         RootOptions rootOptions,
-        JobOptions job,
-        IConnectionProvider connectionProvider)
+        JobOptions job)
     {
         RuleFor(x => x.Connection)
             .NotEmpty()
@@ -30,8 +30,22 @@ public class TaskOptionsValidator : AbstractValidator<TaskOptions>
             .NotEmpty()
             .When(x => string.IsNullOrWhiteSpace(x.Table))
             .WithMessage((x, v) => FormatMessage(job, x, "Query required when Table is not specified."));
+        
+        RuleFor(x => x.Schema)
+            .NotEmpty()
+            .When(x => string.IsNullOrWhiteSpace(x.Query))
+            .WithMessage((x, v) => FormatMessage(job, x, "Schema required when Query is not specified."));
 
         RuleFor(x => x.Output).SetValidator(new OutputOptionsValidator());
+
+        RuleFor(x => x.Output).NotNull().WithMessage((x, v) => FormatMessage(job, x, "Output options not defined."));
+
+        RuleFor(x => x.CommandRetries)
+            .GreaterThan(0)
+            .When(options => options.CommandRetries.HasValue)
+            .WithMessage((x, v) => FormatMessage(job, x, $"Command retries value '{v}' invalid."));
+
+        RuleFor(x => x.TaskId).NotEmpty();
     }
 
     private static string FormatMessage(JobOptions job, TaskOptions task, string msg)

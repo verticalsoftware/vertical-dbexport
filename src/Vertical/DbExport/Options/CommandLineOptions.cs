@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 using Vertical.CommandLine;
 using Vertical.CommandLine.Configuration;
 
-namespace Vertical.DbExport;
+namespace Vertical.DbExport.Options;
 
 public class CommandLineOptions
 {

@@ -1,7 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Vertical.DbExport;
+namespace Vertical.DbExport.Infrastructure;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class InjectAttribute : Attribute
@@ -31,7 +31,7 @@ public static class InjectExtensions
         foreach (var entry in injectTypes)
         {
             var descriptor = ServiceDescriptor.Describe(
-                entry.type.GetInterfaces().First(),
+                entry.type.GetInterfaces().FirstOrDefault() ?? entry.type,
                 entry.type,
                 entry.injection!.Lifetime);
 
