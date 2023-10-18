@@ -1,0 +1,28 @@
+﻿[schema]
+SELECT
+    COLUMN_NAME
+    , ORDINAL_POSITION
+    , CHARACTER_MAXIMUM_LENGTH
+    , IS_NULLABLE
+    , DATA_TYPE
+    , COLUMN_KEY
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_SCHEMA=@schema AND TABLE_NAME=@table
+ORDER BY ORDINAL_POSITION
+
+[sorted-query]
+SELECT t.*
+FROM (
+    SELECT $(columns)
+    FROM $(schema).$(table)
+    ORDER BY $(sort-column)
+) t
+LIMIT @limit OFFSET @offset
+
+[unsorted-query]
+SELECT t.*
+FROM (
+    SELECT $(columns)
+    FROM $(schema).$(table)
+) t
+LIMIT @limit OFFSET @offset

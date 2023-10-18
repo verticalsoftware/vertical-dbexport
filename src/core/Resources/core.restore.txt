@@ -1,0 +1,64 @@
+﻿[create-schema]
+CREATE TABLE IF NOT EXISTS basic_info (
+    JobName VARCHAR(255) NOT NULL PRIMARY KEY,
+    JobHash VARCHAR(40) NOT NULL,
+    PartitionOffset INTEGER NOT NULL,
+    CountLeft INTEGER NOT NULL,
+    QueryPartitionId INTEGER NOT NULL,
+    QueryPartitionCount INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS cache_files (
+    Offset INTEGER NOT NULL PRIMARY KEY,
+    RecordCount INTEGER NOT NULL,
+    ContentHash VARCHAR(40) NOT NULL,
+    Path VARCHAR(255) NOT NULL,
+    SizeInBytes INTEGER NOT NULL,
+    Compression VARCHAR(5) NOT NULL
+);
+CREATE TABLE IF NOT EXISTS output_files (
+    Path VARCHAR(255) NOT NULL,
+    SizeInBytes INTEGER NOT NULL,
+    Compression VARCHAR(5) NOT NULL,
+    RecordCount INTEGER NOT NULL,
+    ContentHash VARCHAR(40) NOT NULL,
+    OffsetStart INTEGER NOT NULL,
+    OffsetStop INTEGER NOT NULL
+)
+
+[update-info]
+UPDATE basic_info
+SET PartitionOffset=@partitionOffset,
+    CountLeft=@countLeft,
+    QueryPartitionId=@queryPartitionId,
+    QueryPartitionCount=@queryPartitionCount    
+    
+[insert-basic-info]
+INSERT INTO basic_info(JobName, JobHash, PartitionOffset, CountLeft, QueryPartitionId, QueryPartitionCount)
+VALUES(@jobName, @jobHash, 0, 0, 0, 0)
+
+[job-hash-query]
+SELECT JobHash FROM basic_info
+
+[insert-cache-file]
+INSERT INTO cache_files (Offset, RecordCount, ContentHash, Path, SizeInBytes, Compression)
+VALUES (@Offset, @RecordCount, @ContentHash, @Path, @SizeInBytes, @Compression)
+
+[query-cache-file]
+SELECT Offset, RecordCount, ContentHash, Path, SizeInBytes, Compression
+FROM cache_files
+WHERE Offset=@offset
+
+[query-cache-files]
+SELECT Offset, RecordCount, ContentHash, Path, SizeInBytes, Compression
+FROM cache_files
+ORDER BY Offset
+
+[insert-output-file]
+INSERT INTO output_files (Path, SizeInBytes, Compression, OffsetStart, OffsetStop, RecordCount, ContentHash)
+VALUES (@Path, @SizeInBytes, @Compression, @OffsetStart, @OffsetStop, @RecordCount, @ContentHash)
+
+[query-output-file]
+SELECT Path, SizeInBytes, Compression, OffsetStart, OffsetStop, RecordCount, ContentHash
+FROM output_files
+WHERE OffsetStart >= @offsetStart AND OffsetStop <= @offsetStop
+

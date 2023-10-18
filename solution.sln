@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vertical.DbExport", "src\Vertical.DbExport.csproj", "{5163A1AA-459C-4B41-8737-63CB3EFC3132}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8C4E7811-3A18-498E-9491-7849CE1681FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vertical.DbExport.Tests", "test\Vertical.DbExport.Tests.csproj", "{29D3C9CD-2E8D-4996-ABDF-BB8D825F8D96}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vertical.DbExport.Core", "src\core\Vertical.DbExport.Core.csproj", "{FECD5A6A-21BD-464E-9477-48F6C3FA1A35}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vertical.DbExport.MySql", "src\mysql\Vertical.DbExport.MySql.csproj", "{36C000DC-0B26-40D8-8D2B-616A12C42D29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vertical.DbExport.Abstractions", "src\abstractions\Vertical.DbExport.Abstractions.csproj", "{A5B364C6-14AE-4A2C-8CEC-064B7A5ECCB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vertical.DbExport.Cli", "src\cli\Vertical.DbExport.Cli.csproj", "{6BC39A4C-F7ED-4BE4-8572-02A50269A81F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,13 +22,27 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5163A1AA-459C-4B41-8737-63CB3EFC3132}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5163A1AA-459C-4B41-8737-63CB3EFC3132}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5163A1AA-459C-4B41-8737-63CB3EFC3132}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5163A1AA-459C-4B41-8737-63CB3EFC3132}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29D3C9CD-2E8D-4996-ABDF-BB8D825F8D96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29D3C9CD-2E8D-4996-ABDF-BB8D825F8D96}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29D3C9CD-2E8D-4996-ABDF-BB8D825F8D96}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29D3C9CD-2E8D-4996-ABDF-BB8D825F8D96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FECD5A6A-21BD-464E-9477-48F6C3FA1A35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FECD5A6A-21BD-464E-9477-48F6C3FA1A35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FECD5A6A-21BD-464E-9477-48F6C3FA1A35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FECD5A6A-21BD-464E-9477-48F6C3FA1A35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36C000DC-0B26-40D8-8D2B-616A12C42D29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36C000DC-0B26-40D8-8D2B-616A12C42D29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36C000DC-0B26-40D8-8D2B-616A12C42D29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36C000DC-0B26-40D8-8D2B-616A12C42D29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5B364C6-14AE-4A2C-8CEC-064B7A5ECCB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5B364C6-14AE-4A2C-8CEC-064B7A5ECCB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5B364C6-14AE-4A2C-8CEC-064B7A5ECCB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5B364C6-14AE-4A2C-8CEC-064B7A5ECCB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BC39A4C-F7ED-4BE4-8572-02A50269A81F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BC39A4C-F7ED-4BE4-8572-02A50269A81F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BC39A4C-F7ED-4BE4-8572-02A50269A81F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BC39A4C-F7ED-4BE4-8572-02A50269A81F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FECD5A6A-21BD-464E-9477-48F6C3FA1A35} = {8C4E7811-3A18-498E-9491-7849CE1681FE}
+		{36C000DC-0B26-40D8-8D2B-616A12C42D29} = {8C4E7811-3A18-498E-9491-7849CE1681FE}
+		{A5B364C6-14AE-4A2C-8CEC-064B7A5ECCB1} = {8C4E7811-3A18-498E-9491-7849CE1681FE}
+		{6BC39A4C-F7ED-4BE4-8572-02A50269A81F} = {8C4E7811-3A18-498E-9491-7849CE1681FE}
 	EndGlobalSection
 EndGlobal
